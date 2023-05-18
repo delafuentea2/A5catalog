@@ -5,7 +5,7 @@ use GuzzleHttp\Client;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class ProviderController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -25,15 +25,15 @@ class ProductController extends Controller
 
 
 
-     public function index() //('products',[Api\ProductController::class, 'index']);
+     public function index() //('providers',[Api\ProductController::class, 'index']);
     {
-        $api= 'api/products';
+        $api= 'api/providers';
 
         $client= $this->getApi($api);
-        $response = $client->request('GET', 'productos');
+        $response = $client->request('GET', 'providers');
 
-        $productos = json_decode($response->getBody()->getContents());
-        return view('productos.index', ['productos' => $productos]);
+        $providers = json_decode($response->getBody()->getContents());
+        return view('providers.index', ['providers' => $providers]);
     }
 
     /**
@@ -43,7 +43,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('productos.nuevo');
+        return view('providers.nuevo');
     }
 
     /**
@@ -52,29 +52,28 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) // ('products/create',[Api\ProductController::class, 'store']);
+    public function store(Request $request) // ('providers/create',[Api\ProductController::class, 'store']);
     {
-        $api= 'api/products/create';
+        $api= 'api/providers/create';
 
         $client= $this->getApi($api);
         $data=$request->validate([
             'name' => 'required',
-            'price' => 'required',
-            'description' => 'required',
-            'category' => 'required',
+            'company_name' => 'required',
+            'phone' => 'required',
+           
         ]);
 
-        $response = $client->request('POST', 'productos/', [
+        $response = $client->request('POST', 'providers/', [
 
             'form_params' =>
             [
                 'name' => $data['name'],
-                'price' => $data['price'],
-                'description' => $data['description'],
-                'category' => $data['category'],
+                'company_name' => $data['company_name'],
+                'phone' => $data['phone'],
             ]
         ]);
-        return redirect()->route('productos.index');
+        return redirect()->route('providers.index');
     }
 
     /**
@@ -83,15 +82,15 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show($id) //('products/{id}',[Api\ProductController::class, 'show']);
+    public function show($id) //('providers/{id}',[Api\ProductController::class, 'show']);
     {
-        $api= 'api/products/'.$id;
+        $api= 'api/providers/'.$id;
 
         $client= $this->getApi($api);
-        $response = $client->request('GET', 'productos');
+        $response = $client->request('GET', 'providers');
 
-        $productos = json_decode($response->getBody()->getContents());
-        return view('productos.show', ['productos' => $productos]);
+        $providers = json_decode($response->getBody()->getContents());
+        return view('providers.show', ['providers' => $providers]);
     }
 
     /**
@@ -102,7 +101,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return view('productos.edit');
+        return view('providers.edit');
     }
 
     /**
@@ -112,9 +111,9 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id) //('products/update/{id}',[Api\ProductController::class, 'update'])
+    public function update(Request $request, $id) //('providers/update/{id}',[Api\ProductController::class, 'update'])
     {
-        $api= 'api/products/update/'.$id;
+        $api= 'api/providers/update/'.$id;
 
         $client= $this->getApi($api);
 
@@ -125,7 +124,7 @@ class ProductController extends Controller
                 'category' => 'required',
         ]);
 
-        $response = $client->request('PUT', 'productos/', [
+        $response = $client->request('PUT', 'providers/', [
 
                 'form_params' =>
                 [
@@ -137,7 +136,7 @@ class ProductController extends Controller
 
         ]);
 
-        return redirect()->route('productos.index');
+        return redirect()->route('providers.index');
     }
 
     /**
@@ -147,13 +146,13 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function destroy($id) //('products/delete/{id}',[Api\ProductController::class, 'destroy'])
+    public function destroy($id) //('providers/delete/{id}',[Api\ProductController::class, 'destroy'])
     {
-        $api= 'api/products/delete/'.$id;
+        $api= 'api/providers/delete/'.$id;
 
         $client= $this->getApi($api);
-        $response = $client->request('DELETE', 'productos/' . $id);
+        $response = $client->request('DELETE', 'providers/' . $id);
 
-        return redirect()->route('productos.index');
+        return redirect()->route('providers.index');
     }
 }
