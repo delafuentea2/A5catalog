@@ -15,10 +15,15 @@ class ProductController extends Controller
 
     private function getApi($route)
     {
-        $url= 'https://friendly-shtern.82-223-54-48.plesk.page'; //URL de la api
+        
+        
+        $url= 'https://friendly-shtern.82-223-54-48.plesk.page/'; //URL de la api
         $uri= $url.$route;
-
-        $client = new Client(['base_uri' => $uri]); //URL de la api + Funcion
+        
+        $client = new Client([
+            'base_uri' => $uri,
+            'verify' => false // Deshabilitar la verificación SSL
+        ]); //URL de la api + Funcion
         return $client;
     }
 
