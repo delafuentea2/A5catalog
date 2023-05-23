@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,14 +28,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    //Route::get('/cart', 'CarritoController@index')->name('cart');
+    Route::get('/cart', [CartController::class,'show'])->name('cart');
+    Route::post('/cart/store', [CartController::class,'store'])->name('cart.store');
+    Route::post('/pay', [CartController::class,'pay'])->name('pay');
 });
 
 Route::get('/productos', [ProductController::class, 'index'])->name('productos.index');
 Route::get('/productos/{id}', [ProductController::class, 'show'])->name('productos.show');
 
 Route::get('/productos/nuevo', [ProductController::class, 'create'])->name('productos.create');
-Route::post('/productos', [ProductController::class, 'store'])->name('productos.store');
+Route::post('/productos/store', [ProductController::class, 'store'])->name('productos.store');
 Route::post('/productos/update/{id}', [ProductController::class, 'update'])->name('productos.update');
 Route::delete('/productos/delete/{id}', [ProductController::class, 'destroy'])->name('productos.destroy');
 

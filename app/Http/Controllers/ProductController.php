@@ -15,11 +15,11 @@ class ProductController extends Controller
 
     private function getApi($route)
     {
-        
-        
+
+
         $url= 'https://friendly-shtern.82-223-54-48.plesk.page/'; //URL de la api
         $uri= $url.$route;
-        
+
         $client = new Client([
             'base_uri' => $uri,
             'verify' => false // Deshabilitar la verificación SSL
@@ -35,7 +35,7 @@ class ProductController extends Controller
         $api= 'api/products';
 
         $client= $this->getApi($api);
-        $response = $client->request('GET', 'productos');
+        $response = $client->request('GET', 'products');
 
         $productos = json_decode($response->getBody()->getContents());
         return view('productos.index', ['productos' => $productos]);
@@ -93,7 +93,7 @@ class ProductController extends Controller
         $api= 'api/products/'.$id;
 
         $client= $this->getApi($api);
-        $response = $client->request('GET', 'productos');
+        $response = $client->request('GET', 'products');
 
         $productos = json_decode($response->getBody()->getContents());
         return view('productos.show', ['productos' => $productos]);

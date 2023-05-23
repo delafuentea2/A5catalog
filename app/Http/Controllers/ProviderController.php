@@ -15,7 +15,7 @@ class ProviderController extends Controller
 
     private function getApi($route)
     {
-        $url= 'https://friendly-shtern.82-223-54-48.plesk.page'; //URL de la api
+        $url= 'https://friendly-shtern.82-223-54-48.plesk.page/'; //URL de la api
         $uri= $url.$route;
 
         $client = new Client(['base_uri' => $uri]); //URL de la api + Funcion
@@ -61,7 +61,7 @@ class ProviderController extends Controller
             'name' => 'required',
             'company_name' => 'required',
             'phone' => 'required',
-           
+
         ]);
 
         $response = $client->request('POST', 'providers/', [

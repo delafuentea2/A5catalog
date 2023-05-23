@@ -38,6 +38,8 @@
                             {{ __('Profile') }}
                         </x-dropdown-link>
 
+                        
+
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
@@ -50,6 +52,15 @@
                         </form>
                     </x-slot>
                 </x-dropdown>
+
+                <!-- Cart Icon -->
+                @auth
+                    <a href="{{ route('cart') }}" class="ml-2 text-gray-500 hover:text-gray-700">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4h16M4 8h16M4 12h16M4 16h16"></path>
+                        </svg>
+                    </a>
+                @endauth
             </div>
 
             <!-- Hamburger -->

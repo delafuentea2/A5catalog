@@ -18,7 +18,7 @@ class CartController extends Controller
     $cart = Auth::user()->cart;
     $productos = $cart->productos;
 
-    return view('carrito.index', compact('productos'));
+    return view('cart.index', compact('productos'));
     }
 
     /**
@@ -39,7 +39,18 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data=$request->validate([
+            'product_id' => 'required|integer|min:1',
+            'quantity' => 'required',
+        ]);
+
+        $cart = new Cart();
+        $cart->user_id = Auth::id();
+        $cart->product_id = $data[('product_id')];
+        $cart->quantity = $data[('quantity')];
+        $cart->save();
+
+        return redirect()->route('productos.index')->with('success', 'Producto agregado al carrito exitosamente.');
     }
 
     /**
@@ -48,9 +59,21 @@ class CartController extends Controller
      * @param  \App\Models\Cart  $cart
      * @return \Illuminate\Http\Response
      */
-    public function show(Cart $cart)
+    public function show()
     {
-        //
+        $userId = Auth::id();
+        $carts = Cart::where('user_id', $userId)->get();
+        $total = 0;
+        foreach ($carts as $cart) {
+            $cart->product_name = $cart->product->name;
+            $cart->product_price = $cart->product->price;
+            $total += $cart->quantity * $cart->product->price;
+        }
+
+        return view('cart', [
+            'carts' => $carts,
+            'total' => $total
+        ]);
     }
 
     /**
@@ -82,8 +105,15 @@ class CartController extends Controller
      * @param  \App\Models\Cart  $cart
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Cart $cart)
+    public function destroy()
     {
-        //
+        $userId = Auth::id();
+        Cart::where('user_id', $userId)->delete();
+    }
+
+    public function pay()
+    {
+        $this->destroy();
+        return redirect()->route('pay');
     }
 }
