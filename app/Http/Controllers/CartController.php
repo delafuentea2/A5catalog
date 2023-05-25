@@ -18,7 +18,7 @@ class CartController extends Controller
     $cart = Auth::user()->cart;
     $productos = $cart->productos;
 
-    return view('cart.index', compact('productos'));
+    return view('cart', compact('productos'));
     }
 
     /**
@@ -70,10 +70,7 @@ class CartController extends Controller
             $total += $cart->quantity * $cart->product->price;
         }
 
-        return view('cart', [
-            'carts' => $carts,
-            'total' => $total
-        ]);
+        return view('cart', compact(['carts' => $carts,'total' => $total]));
     }
 
     /**

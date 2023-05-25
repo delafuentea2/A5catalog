@@ -69,7 +69,7 @@ class ProductController extends Controller
             'category' => 'required',
         ]);
 
-        $response = $client->request('POST', 'productos/', [
+        $response = $client->request('POST', 'products/', [
 
             'form_params' =>
             [
@@ -93,10 +93,10 @@ class ProductController extends Controller
         $api= 'api/products/'.$id;
 
         $client= $this->getApi($api);
-        $response = $client->request('GET', 'products');
+        $response = $client->request('GET', $id);
 
         $productos = json_decode($response->getBody()->getContents());
-        return view('productos.show', ['productos' => $productos]);
+        return view('productos.show', ['producto' => $productos]);
     }
 
     /**
@@ -105,7 +105,7 @@ class ProductController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product)
+    public function edit()
     {
         return view('productos.edit');
     }
@@ -130,7 +130,7 @@ class ProductController extends Controller
                 'category' => 'required',
         ]);
 
-        $response = $client->request('PUT', 'productos/', [
+        $response = $client->request('PUT', 'products/' . $id, [
 
                 'form_params' =>
                 [
@@ -157,7 +157,7 @@ class ProductController extends Controller
         $api= 'api/products/delete/'.$id;
 
         $client= $this->getApi($api);
-        $response = $client->request('DELETE', 'productos/' . $id);
+        $response = $client->request('DELETE', 'products/' . $id);
 
         return redirect()->route('productos.index');
     }

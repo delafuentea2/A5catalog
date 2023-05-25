@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,20 +34,37 @@ Route::middleware('auth')->group(function () {
     Route::post('/pay', [CartController::class,'pay'])->name('pay');
 });
 
+//PRODUCTOS
 Route::get('/productos', [ProductController::class, 'index'])->name('productos.index');
 Route::get('/productos/{id}', [ProductController::class, 'show'])->name('productos.show');
 
 Route::get('/productos/nuevo', [ProductController::class, 'create'])->name('productos.create');
+
 Route::post('/productos/store', [ProductController::class, 'store'])->name('productos.store');
 Route::post('/productos/update/{id}', [ProductController::class, 'update'])->name('productos.update');
 Route::delete('/productos/delete/{id}', [ProductController::class, 'destroy'])->name('productos.destroy');
 
+//PROVIDERS
+Route::get('/providers', [ProviderController::class, 'index'])->name('providers.index');
+Route::get('/providers/{id}', [ProviderController::class, 'show'])->name('providers.show');
+
+
+//ADMIN
 Route::middleware('superuser')->group(function () {
+
     Route::get('/productos/nuevo', [ProductController::class, 'create'])->name('productos.create');
     Route::post('/productos/store', [ProductController::class, 'store'])->name('productos.store');
+    Route::get('/productos/edit', [ProductController::class, 'create'])->name('productos.edit');
     Route::post('/productos/update/{id}', [ProductController::class, 'update'])->name('productos.update');
     Route::delete('/productos/delete/{id}', [ProductController::class, 'destroy'])->name('productos.destroy');
-})->middleware('superuser');
+
+    Route::get('/providers/nuevo', [ProviderController::class, 'create'])->name('providers.create');
+    Route::post('/providers/store', [ProviderController::class, 'store'])->name('providers.store');
+    Route::get('/providers/edit', [ProviderController::class, 'create'])->name('providers.edit');
+    Route::post('/providers/update/{id}', [ProviderController::class, 'update'])->name('providers.update');
+    Route::delete('/providers/delete/{id}', [ProviderController::class, 'destroy'])->name('providers.destroy');
+
+});
 
 require __DIR__.'/auth.php';
 

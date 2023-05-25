@@ -1,3 +1,4 @@
+@include('layouts.app')
 <div class="card">
     <div class="card-header">
         <h5 class="mb-0">
@@ -7,7 +8,7 @@
     <div class="card-body">
         <div class="row">
             <div class="col-md-4">
-                <img src="{{ asset('storage/' . $producto->image) }}" alt="{{ $producto->name }}" class="img-fluid">
+                <img src="https://picsum.photos/200/300?random" alt="{{ $producto->name }}" class="img-fluid">
             </div>
             <div class="col-md-8">
                 <p><strong>Precio:</strong> ${{ $producto->price }}</p>

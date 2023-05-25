@@ -1,3 +1,4 @@
+@include('layouts.app')
 <form action="{{ route('productos.store') }}" method="POST">
     @csrf
     <div>

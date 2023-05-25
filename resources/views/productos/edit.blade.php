@@ -1,3 +1,4 @@
+@include('layouts.app')
 <form action="{{ route('productos.update', $producto->id) }}" method="POST">
     @csrf
     @method('PUT')

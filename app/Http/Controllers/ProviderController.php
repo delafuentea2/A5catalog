@@ -18,7 +18,10 @@ class ProviderController extends Controller
         $url= 'https://friendly-shtern.82-223-54-48.plesk.page/'; //URL de la api
         $uri= $url.$route;
 
-        $client = new Client(['base_uri' => $uri]); //URL de la api + Funcion
+        $client = new Client([
+            'base_uri' => $uri,
+            'verify' => false // Deshabilitar la verificación SSL
+        ]); //URL de la api + Funcion
         return $client;
     }
 
@@ -87,10 +90,10 @@ class ProviderController extends Controller
         $api= 'api/providers/'.$id;
 
         $client= $this->getApi($api);
-        $response = $client->request('GET', 'providers');
+        $response = $client->request('GET', $id);
 
         $providers = json_decode($response->getBody()->getContents());
-        return view('providers.show', ['providers' => $providers]);
+        return view('providers.show', ['provider' => $providers]);
     }
 
     /**
@@ -99,7 +102,7 @@ class ProviderController extends Controller
      * @param  \App\Models\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product)
+    public function edit()
     {
         return view('providers.edit');
     }
@@ -124,7 +127,7 @@ class ProviderController extends Controller
                 'category' => 'required',
         ]);
 
-        $response = $client->request('PUT', 'providers/', [
+        $response = $client->request('PUT', 'providers/' . $id, [
 
                 'form_params' =>
                 [
